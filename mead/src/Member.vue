@@ -6,7 +6,7 @@
                     <h2>{{ member.name }}</h2>
                     <p>
                         <i class="fa fa-fw fa-envelope-o"></i>
-                        <a :href="emailLink" v-if="emailPresent">{{ member.email }}</a>
+                        <a target="_blank" :href="emailLink" v-if="emailPresent">{{ member.email }}</a>
                         <span class="missing" v-if="!emailPresent">
                             Geen e-mailadres bekend
                         </span>
@@ -14,15 +14,17 @@
                         <br>
 
                         <i class="fa fa-fw fa-phone"></i>
-                        <a :href="mobileLink" v-if="mobileLink">{{ mobileDisplay }}</a>
-                        <span class="missing" v-if="!mobileLink">
+                        <a target="_blank" :href="member.mobile | phoneLink" v-if="member.mobile">
+                            {{ member.mobile | phoneNumber }}
+                        </a>
+                        <span class="missing" v-if="!member.mobile">
                             Geen mobiel nummer bekend
                         </span>
 
                         <br>
 
                         <i class="fa fa-fw fa-address-card-o"></i>
-                        <a href="#" @click="">Alle informatie</a>
+                        <a href="#" @click.prevent="updateDetailedView">Alle informatie</a>
                     </p>
                 </div>
             </div>
@@ -42,32 +44,12 @@ export default {
         emailLink() {
             return `mailto:${this.member.email}`;
         },
+    },
 
-        mobileLink() {
-            let phone = this.mobileCleaned;
-            if (!phone) {
-                return null;
-            }
-            if (phone[0] === '0') {
-                phone = phone.substring(1);
-            }
-            return `tel:+31${phone}`;
+    methods: {
+        updateDetailedView() {
+            this.$emit('more-info', this.member);
         },
-
-        mobileDisplay() {
-            let phone = this.mobileCleaned;
-            return phone ? phone.match(/.{1,2}/g).join(' ') : null;
-        },
-
-        mobileCleaned() {
-            let phone = this.member.mobile;
-            if (!phone) {
-                return null;
-            }
-            return phone.replace(/[^0-9\+]/, '');
-        }
-
-
     },
 };
 </script>

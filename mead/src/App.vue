@@ -32,8 +32,14 @@
         </nav>
 
         <main>
-            <member v-for="member in displayedMembers" :key="member.uid" :member="member"></member>
+            <member
+                v-for="member in displayedMembers"
+                :key="member.uid"
+                :member="member"
+                @more-info="setDetailedMember"></member>
         </main>
+
+        <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>
     </div>
 
 </template>
@@ -41,10 +47,11 @@
 <script>
 import axios from 'axios';
 import Member from './Member';
+import MemberDetail from './MemberDetail';
 import OAuth from './OAuth';
 
 export default {
-    components: { Member },
+    components: { Member, MemberDetail },
     data() {
         return {
             members: [],
@@ -56,6 +63,7 @@ export default {
                 loggedIn: false,
                 token: null,
             },
+            detailedMember: null,
         };
     },
 
@@ -82,7 +90,6 @@ export default {
 
     methods: {
         loggedIn(token) {
-            console.log(token);
             if (token === false) return;
             this.oauth.token = token;
             this.oauth.loggedIn = true;
@@ -97,6 +104,10 @@ export default {
 
         fatalError(error) {
             alert(`Fatal error: ${error}`);
+        },
+
+        setDetailedMember(member) {
+            this.detailedMember = member;
         },
     },
 };

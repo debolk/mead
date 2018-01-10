@@ -33,6 +33,7 @@ export default class OAuth {
                                         + '&client_pass=' + this.options.secret
                                         + '&redirect_uri=' +this.options.callback
                                         + '&state=1';
+                    return;
                 }
             }
 
@@ -49,7 +50,6 @@ export default class OAuth {
                 history.pushState(null, '', this.options.callback);
                 resolve(response.data.access_token);
             }).catch((error) => {
-                console.log('fatal error', error);
                 reject('Failed to get OAuth authorization token');
             });
         });
