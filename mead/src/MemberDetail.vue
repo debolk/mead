@@ -87,11 +87,10 @@ export default {
     },
 
     watch: {
-        member(newVal, oldVal) {
-            if (newVal === oldVal) {
-                return;
+        member(newVal) {
+            if (newVal !== null) {
+                this.getExtraDetails();
             }
-            this.getExtraDetails();
         }
     },
 
