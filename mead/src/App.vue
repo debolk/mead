@@ -30,6 +30,20 @@
             </div>
         </nav>
 
+        <p class="notification" v-if="displayedMembers.length === 0 && state === 'loaded'">
+            Geen resultaten
+        </p>
+        <p class="notification is-danger" v-if="state === 'permission_refused'">
+            Je moet toestemming geven voor toegang tot je Bolkaccount, anders kunnen
+            we de gegevens van alle andere Bolkers niet downloaden. Probeer opnieuw
+            door te herladen.
+        </p>
+
+        <p class="notification is-danger" v-if="state === 'token_expired'">
+            Je inlog is verlopen. Het openen van extra informatie zal niet meer werken.
+            Herlaad, en log opnieuw in.
+        </p>
+
         <table class="table is-bordered is-striped is-narrow" v-if="displayedMembers.length > 0">
             <thead>
                 <tr>
@@ -57,15 +71,6 @@
             </tbody>
         </table>
 
-        <p class="notification" v-if="displayedMembers.length === 0 && !refusedPermission">
-            Geen resultaten
-        </p>
-        <p class="notification is-danger" v-if="refusedPermission">
-            Je moet toestemming geven voor toegang tot je Bolkaccount, anders kunnen
-            we de gegevens van alle andere Bolkers niet downloaden. Probeer opnieuw
-            door te herladen.
-        </p>
-
         <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>
     </div>
 
@@ -91,14 +96,16 @@ export default {
                 token: null,
             },
             detailedMember: null,
-            refusedPermission: false,
+            // authenticating -> permission_refused
+            // authenticating -> loading -> loaded
+            state: 'authenticating',
         };
     },
 
     mounted() {
         new OAuth(window.config).token().then(this.loggedIn).catch((error) => {
             if (error === 'user_refused_permission') {
-                this.refusedPermission = true;
+                this.state = 'permission_refused';
                 return;
             }
             this.fatalError(error);
@@ -131,6 +138,7 @@ export default {
     methods: {
         loggedIn(token) {
             if (!token) return;
+            this.state = 'loading';
             // Clean up URL and set OAuth page state
             history.pushState(null, null, '/');
             this.oauth.token = token.accessToken();
@@ -143,7 +151,10 @@ export default {
                 timeout: 10000,
             }).then((response) => {
                 this.members = response.data;
+                this.state = 'loaded';
             }).catch(this.fatalError);
+
+            token.whenExpired().then(() => this.state = 'token_expired');
         },
 
         fatalError(error) {

@@ -2,6 +2,7 @@ export default class {
 
     constructor(data) {
         this.token = data;
+        this.monitor = null;
     }
 
     fresh() {
@@ -18,11 +19,10 @@ export default class {
                 resolve();
             }
 
-            const monitor = setInterval(() => {
-                console.log('Testing token expiry');
+            this.monitor = setInterval(() => {
                 if (!this.fresh()) {
-                    console.log('stale');
                     resolve();
+                    clearInterval(this.monitor);
                 }
             }, 3000);
         });
