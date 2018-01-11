@@ -1,35 +1,26 @@
 <template>
-    <div class="box">
-        <article>
-            <div class="media-content">
-                <div class="content">
-                    <h2>{{ member.name }}</h2>
-                    <p>
-                        <i class="fa fa-fw fa-envelope-o"></i>
-                        <a target="_blank" :href="emailLink" v-if="emailPresent">{{ member.email }}</a>
-                        <span class="missing" v-if="!emailPresent">
-                            Geen e-mailadres bekend
-                        </span>
-
-                        <br>
-
-                        <i class="fa fa-fw fa-phone"></i>
-                        <a target="_blank" :href="member.mobile | phoneLink" v-if="member.mobile">
-                            {{ member.mobile | phoneNumber }}
-                        </a>
-                        <span class="missing" v-if="!member.mobile">
-                            Geen mobiel nummer bekend
-                        </span>
-
-                        <br>
-
-                        <i class="fa fa-fw fa-address-card-o"></i>
-                        <a href="#" @click.prevent="updateDetailedView">Alle informatie</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-    </div>
+    <tr>
+        <th>{{ member.name }}</th>
+        <td>
+            <a target="_blank" :href="emailLink" v-if="emailPresent">
+                {{ member.email }}
+            </a>
+            <span class="missing" v-if="!emailPresent">
+                Geen e-mailadres bekend
+            </span>
+        </td>
+        <td>
+            <a target="_blank" :href="member.mobile | phoneLink" v-if="member.mobile">
+                {{ member.mobile | phoneNumber }}
+            </a>
+            <span class="missing" v-if="!member.mobile">
+                Geen mobiel nummer bekend
+            </span>
+        </td>
+        <td>
+            <a href="#" @click.prevent="updateDetailedView">Alle informatie</a>
+        </td>
+    </tr>
 </template>
 
 <script>
@@ -55,14 +46,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.box {
-    overflow: hidden;
-    max-width: 30em;
-    margin-bottom: 0.5em;
-}
-h2 {
-    margin-bottom: 0;
-}
 .missing {
     color: #999;
 }

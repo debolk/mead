@@ -32,11 +32,35 @@
         </nav>
 
         <main class="container">
-            <member
-                v-for="member in displayedMembers"
-                :key="member.uid"
-                :member="member"
-                @more-info="setDetailedMember"></member>
+            <table class="table is-bordered is-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            <i class="fa fa-fw fa-user"></i>
+                            Naam
+                        </th>
+                        <th>
+                            <i class="fa fa-fw fa-envelope-o"></i>
+                            E-mailadres
+                        </th>
+                        <th>
+                            <i class="fa fa-fw fa-phone"></i>
+                            Telefoonnummer
+                        </th>
+                        <th>
+                            <i class="fa fa-fw fa-address-card-o"></i>
+                            Alle informatie
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <member
+                        v-for="member in displayedMembers"
+                        :key="member.uid"
+                        :member="member"
+                        @more-info="setDetailedMember"></member>
+                </tbody>
+            </table>
         </main>
 
         <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>
