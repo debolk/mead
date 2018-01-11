@@ -33,18 +33,18 @@
         </nav>
 
         <main class="container">
-            <table class="table is-bordered is-striped">
+            <table class="table is-bordered is-striped is-narrow" v-if="displayedMembers.length > 0">
                 <thead>
                     <tr>
                         <th>
                             <i class="fa fa-fw fa-user"></i>
                             Naam
                         </th>
-                        <th>
+                        <th class="is-hidden-mobile">
                             <i class="fa fa-fw fa-envelope-o"></i>
                             E-mailadres
                         </th>
-                        <th>
+                        <th class="is-hidden-mobile">
                             <i class="fa fa-fw fa-phone"></i>
                             Telefoonnummer
                         </th>
@@ -62,6 +62,10 @@
                         @more-info="setDetailedMember"></member>
                 </tbody>
             </table>
+
+            <p class="notification" v-if="displayedMembers.length === 0">
+                Geen resultaten
+            </p>
         </main>
 
         <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>

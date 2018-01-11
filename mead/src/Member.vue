@@ -1,7 +1,7 @@
 <template>
     <tr>
         <th>{{ member.name }}</th>
-        <td>
+        <td class="is-hidden-mobile">
             <a target="_blank" :href="emailLink" v-if="emailPresent">
                 {{ member.email }}
             </a>
@@ -9,7 +9,7 @@
                 Geen e-mailadres bekend
             </span>
         </td>
-        <td>
+        <td class="is-hidden-mobile">
             <a target="_blank" :href="member.mobile | phoneLink" v-if="member.mobile">
                 {{ member.mobile | phoneNumber }}
             </a>
