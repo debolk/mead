@@ -56,9 +56,9 @@ export default {
 
 <style lang="scss" scoped>
 .box {
-    width: 25em;
-    float: left;
-    margin: 0.25em;
+    overflow: hidden;
+    max-width: 30em;
+    margin-bottom: 0.5em;
 }
 h2 {
     margin-bottom: 0;

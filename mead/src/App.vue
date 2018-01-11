@@ -31,7 +31,7 @@
             </div>
         </nav>
 
-        <main>
+        <main class="container">
             <member
                 v-for="member in displayedMembers"
                 :key="member.uid"
@@ -134,6 +134,6 @@ export default {
 }
 
 main {
-    margin: 1em;
+    margin: 1em !important;
 }
 </style>
