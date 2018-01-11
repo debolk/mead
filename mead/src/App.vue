@@ -84,6 +84,12 @@ export default {
                 members = members.filter(m => m.name.toLowerCase().indexOf(query) !== -1);
             }
 
+            members = members.sort((a, b) => {
+                const first = a.firstname.localeCompare(b.firstname);
+                const last = a.lastname.localeCompare(b.lastname);
+                return first || last;
+            });
+
             return members;
         }
     },
@@ -98,11 +104,7 @@ export default {
                 url: `https://people.i.bolkhuis.nl/persons?access_token=${token}`,
                 timeout: 10000,
             }).then((response) => {
-                this.members = response.data.sort((a, b) => {
-                    const first = a.firstname.localeCompare(b.firstname);
-                    const last = a.lastname.localeCompare(b.lastname);
-                    return first || last;
-                });
+                this.members = response.data;
             }).catch(this.fatalError);
         },
 
