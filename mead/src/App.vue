@@ -98,7 +98,11 @@ export default {
                 url: `https://people.i.bolkhuis.nl/persons?access_token=${token}`,
                 timeout: 10000,
             }).then((response) => {
-                this.members = response.data.sort((a, b) => a.firstname.localeCompare(b.firstname));
+                this.members = response.data.sort((a, b) => {
+                    const first = a.firstname.localeCompare(b.firstname);
+                    const last = a.lastname.localeCompare(b.lastname);
+                    return first || last;
+                });
             }).catch(this.fatalError);
         },
 
