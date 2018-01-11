@@ -18,7 +18,7 @@
             </span>
         </td>
         <td>
-            <a href="#" @click.prevent="updateDetailedView">Alle informatie</a>
+            <a href="#" class="button is-small" @click.prevent="updateDetailedView">Alle informatie</a>
         </td>
     </tr>
 </template>
