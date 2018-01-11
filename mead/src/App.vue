@@ -57,8 +57,13 @@
             </tbody>
         </table>
 
-        <p class="notification" v-if="displayedMembers.length === 0">
+        <p class="notification" v-if="displayedMembers.length === 0 && !refusedPermission">
             Geen resultaten
+        </p>
+        <p class="notification is-danger" v-if="refusedPermission">
+            Je moet toestemming geven voor toegang tot je Bolkaccount, anders kunnen
+            we de gegevens van alle andere Bolkers niet downloaden. Probeer opnieuw
+            door te herladen.
         </p>
 
         <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>
@@ -70,7 +75,7 @@
 import axios from 'axios';
 import Member from './Member';
 import MemberDetail from './MemberDetail';
-import OAuth from './OAuth';
+import OAuth from './OAuth/OAuth';
 
 export default {
     components: { Member, MemberDetail },
@@ -86,11 +91,18 @@ export default {
                 token: null,
             },
             detailedMember: null,
+            refusedPermission: false,
         };
     },
 
     mounted() {
-        new OAuth(window.config).authenticate().then(this.loggedIn).catch(this.fatalError);
+        new OAuth(window.config).token().then(this.loggedIn).catch((error) => {
+            if (error === 'user_refused_permission') {
+                this.refusedPermission = true;
+                return;
+            }
+            this.fatalError(error);
+        });
     },
 
     computed: {
@@ -118,12 +130,16 @@ export default {
 
     methods: {
         loggedIn(token) {
-            if (token === false) return;
-            this.oauth.token = token;
+            if (!token) return;
+            // Clean up URL and set OAuth page state
+            history.pushState(null, null, '/');
+            this.oauth.token = token.accessToken();
             this.oauth.loggedIn = true;
+
+            // Get member data
             axios.request({
                 method: 'get',
-                url: `https://people.i.bolkhuis.nl/persons?access_token=${token}`,
+                url: `https://people.i.bolkhuis.nl/persons?access_token=${token.accessToken()}`,
                 timeout: 10000,
             }).then((response) => {
                 this.members = response.data;
