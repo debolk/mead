@@ -1,9 +1,10 @@
 <template>
     <div id="app">
         <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
+            <div class="navbar-start">
                 <h1>Contactgegevens</h1>
-
+            </div>
+            <div class="navbar-end">
                 <div class="field search">
                     <p class="control has-icons-left">
                         <input
