@@ -151,7 +151,7 @@ export default {
     h1 {
         font-size: 1.5em;
         font-weight: bold;
-        padding: 0.25em;
+        padding: 0.25em 2em 0.25em 0.75em;
     }
 
     .search {
