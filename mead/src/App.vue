@@ -3,8 +3,6 @@
         <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
             <div class="navbar-start">
                 <h1>Contactgegevens</h1>
-            </div>
-            <div class="navbar-end">
                 <div class="field search">
                     <p class="control has-icons-left">
                         <input
@@ -32,41 +30,39 @@
             </div>
         </nav>
 
-        <main class="container">
-            <table class="table is-bordered is-striped is-narrow" v-if="displayedMembers.length > 0">
-                <thead>
-                    <tr>
-                        <th>
-                            <i class="fa fa-fw fa-user"></i>
-                            Naam
-                        </th>
-                        <th class="is-hidden-mobile">
-                            <i class="fa fa-fw fa-envelope-o"></i>
-                            E-mailadres
-                        </th>
-                        <th class="is-hidden-mobile">
-                            <i class="fa fa-fw fa-phone"></i>
-                            Telefoonnummer
-                        </th>
-                        <th>
-                            <i class="fa fa-fw fa-address-card-o"></i>
-                            Alle informatie
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <member
-                        v-for="member in displayedMembers"
-                        :key="member.uid"
-                        :member="member"
-                        @more-info="setDetailedMember"></member>
-                </tbody>
-            </table>
+        <table class="table is-bordered is-striped is-narrow" v-if="displayedMembers.length > 0">
+            <thead>
+                <tr>
+                    <th>
+                        <i class="fa fa-fw fa-user"></i>
+                        Naam
+                    </th>
+                    <th class="is-hidden-mobile">
+                        <i class="fa fa-fw fa-envelope-o"></i>
+                        E-mailadres
+                    </th>
+                    <th class="is-hidden-mobile">
+                        <i class="fa fa-fw fa-phone"></i>
+                        Telefoonnummer
+                    </th>
+                    <th>
+                        <i class="fa fa-fw fa-address-card-o"></i>
+                        Alle informatie
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <member
+                    v-for="member in displayedMembers"
+                    :key="member.uid"
+                    :member="member"
+                    @more-info="setDetailedMember"></member>
+            </tbody>
+        </table>
 
-            <p class="notification" v-if="displayedMembers.length === 0">
-                Geen resultaten
-            </p>
-        </main>
+        <p class="notification" v-if="displayedMembers.length === 0">
+            Geen resultaten
+        </p>
 
         <member-detail :member.sync="detailedMember" :access-token="oauth.token"></member-detail>
     </div>
@@ -166,9 +162,5 @@ export default {
     .checkbox {
         margin: 1em;
     }
-}
-
-main {
-    margin: 1em !important;
 }
 </style>
