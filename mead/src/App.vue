@@ -25,7 +25,7 @@
                         class="switch is-rounded"
                         v-model="filter.ex_members"
                         :disabled="!oauth.loggedIn">
-                    <label for="ex_members">Toon oud- en ex-leden</label>
+                    <label for="ex_members">Oud- en ex-leden</label>
                 </div>
             </div>
         </nav>
@@ -45,10 +45,7 @@
                         <i class="fa fa-fw fa-phone"></i>
                         Telefoonnummer
                     </th>
-                    <th>
-                        <i class="fa fa-fw fa-address-card-o"></i>
-                        Alle informatie
-                    </th>
+                    <th>&nbsp;</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,6 +158,12 @@ export default {
 
     .checkbox {
         margin: 1em;
+    }
+}
+
+@media(max-width: 768px) {
+    table {
+        width: 100%;
     }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th>{{ member.name }}</th>
+        <td>{{ member.name }}</td>
         <td class="is-hidden-mobile">
             <a target="_blank" :href="emailLink" v-if="emailPresent">
                 {{ member.email }}
